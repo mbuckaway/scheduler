@@ -1,0 +1,7 @@
+env/*
+*.pdf
+dist/*
+build/*
+configlib/__pycache__
+Scheduler.egg-info/*
+.DS_Store
