@@ -1,5 +1,4 @@
 import unittest
-from configlib.ConfigItem import ConfigItem
 from configlib.Config import Config
 import logging
 
@@ -21,7 +20,7 @@ class TestConfigItemMethods(unittest.TestCase):
 
     def test_configfile_load(self):
         config = Config.Read("config.yaml")
-        self.assertEquals(3, len(config.ConfigItems))
+        self.assertEqual(3, len(config.ConfigItems))
         self.assertIsNotNone(config.GetConfigItemByTime("11:30"))
         self.assertIsNotNone(config.GetConfigItemByTime("13:30"))
         self.assertIsNotNone(config.GetConfigItemByTime("12:30"))

@@ -1,0 +1,17 @@
+#!/bin/bash
+SOCKET="/tmp/release-bunnies.sock"
+stop() {
+    echo "DONE"
+    exit 1
+}
+
+trap 'stop' SIGINT SIGQUIT SIGTSTP SIGTERM
+
+echo "Running Releases Bunnies..."
+while [ "1" == "1" ]; do
+    # This is just for testing
+    if [ -e $SOCKET ]; then
+        rm -f $SOCKET
+    fi
+    nc -lU $SOCKET
+done

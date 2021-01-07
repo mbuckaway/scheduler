@@ -1,8 +1,12 @@
 '''
 Config Item container class to hold information for each item in the config file and validate a config item
 '''
+
+import logging
+import os
 class ConfigItem:
     def __init__(self, configitem) -> None:
+        self.logger = logging.getLogger(__name__)
         # Validate the item
         requiredVerbKeys = {
             "start": {
@@ -47,8 +51,15 @@ class ConfigItem:
 
         self.configitem = configitem
     
+    def Check(self):
+        result = True
+        if self.IsStart and self.ProgramName and not os.path.exists(self.ProgramName):
+            self.logger.warning("Program name {} does not exist!".format(self.ProgramName))
+            result = False
+        return result
+
     @property
-    def Verb(self) -> str:
+    def Verb(self):
         return self.configitem['verb']
 
     @property

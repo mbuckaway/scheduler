@@ -32,6 +32,7 @@ class Config:
             
         for configdata in configparser:
             configitem = ConfigItem(configdata)
+            configitem.Check()
             self.property_scheduleitems.append(configitem)
             self.property_scheduleitemsbytime[configitem.Time] = configitem
 

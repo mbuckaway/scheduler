@@ -1,2 +1,5 @@
+wheel
 pyyaml
 zc.lockfile
+psutil
+schedule
