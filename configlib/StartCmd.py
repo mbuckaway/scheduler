@@ -16,13 +16,18 @@ class StartCmd(AbstractCmd):
         self.logger = logging.getLogger(__name__)
         self.config = config
 
+    '''
+    Start checks for an active PID of a previous run. If it finds one, it reports it and does nothing
+    If there is not active PID, then it starts the program and creates a PID file
+    '''
     def Run(self):
         try:
             pid = 0
-            with open(self.config.PIDFilename, mode="r") as pidfile:
-                pidtext = pidfile.read()
-            pid = int(pidtext)
-            if psutil.pid_exists(pid):
+            if os.path.exists(self.config.PIDFilename):
+                with open(self.config.PIDFilename, mode="r") as pidfile:
+                    pidtext = pidfile.read()
+                pid = int(pidtext)
+            if pid>0 and psutil.pid_exists(pid):
                 self.logger.warning("%s still running as PID %d, ignored", self.config.Verb, pid)
             else:
                 environ = os.environ.copy()

@@ -20,6 +20,10 @@ class StopCmd(AbstractCmd):
         self.logger = logging.getLogger(__name__)
         self.config = config
 
+    '''
+    Stop checks for an active PID of a previous run. If it finds one, sends a SIGTERM to the process.
+    After 2 seconds if the process is still running, it is killed
+    '''
     def Run(self):
         if self.config.PIDFilename and os.path.exists(self.config.PIDFilename):
             pid = 0

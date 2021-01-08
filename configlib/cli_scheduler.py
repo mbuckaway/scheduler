@@ -38,8 +38,9 @@ def scheduler():
     # Some work might have to be done to ensure items are not missed. There are some 20 different task schedulers for python
     # I chose the KISS principle due to this programming task was time boxed. This would have to be improved to be production ready.
     # Some signal handling should added so with we are asked to shut down, we do so gracefully. Not implemented due to time constraints
-    while True:        # Get the time now, and see if there is an item to run
+    while True:        
         delay = 60
+        # Get the time now, and see if there is an item to run        
         now = datetime.datetime.utcnow()
         strnow = f'{now.hour:#02d}:{now.minute:#02d}'
         logging.debug("Checking for items at %s", strnow)
@@ -57,8 +58,8 @@ def scheduler():
             timeend = time.time()
             timerun = int(timeend - timestart)
             delay = delay - timerun
-        # Wait a minute to check the time again. The amount of time to delay should include the difference between "now"
-        # and the current time to make sure we never run over a interval, otherwise drifts over a second can add up
+        # Wait a minute to check the time again subtract any processing time. timerun is normally 0, but if the write
+        # command manages to delay 15 secs, we need to incorporate that into the delay before next command
         time.sleep(delay)
 
 

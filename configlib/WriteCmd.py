@@ -10,13 +10,15 @@ from configlib.AbstractCmd import AbstractCmd
 WriteCmd:
 Write a message to a unix socket making sure to time out before the 60 seconds
 '''
-
 class WriteCmd(AbstractCmd):
     def __init__(self, config):
         super(WriteCmd, self).__init__(config)
         self.logger = logging.getLogger(__name__)
         self.config = config
 
+    '''
+    Open a UNIX socket, and write an item to it. Timeout after 15 seconds if the socket does not exist
+    '''
     def Run(self):
         try:
             server_address = self.config.SocketName
@@ -31,4 +33,5 @@ class WriteCmd(AbstractCmd):
             sock.sendall(data)
             sock.close()
         except Exception as e:
+            # Log the exception, rather that throw it up
             self.logger.error("Error sending message: {}".format(str(e)))

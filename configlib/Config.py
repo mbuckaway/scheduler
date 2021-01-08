@@ -33,8 +33,11 @@ class Config:
         for configdata in configparser:
             configitem = ConfigItem(configdata)
             configitem.Check()
-            self.property_scheduleitems.append(configitem)
-            self.property_scheduleitemsbytime[configitem.Time] = configitem
+            if configitem.Time in self.property_scheduleitemsbytime:
+                self.logger.warning("Ignoring duplicate time item at %s", configitem.Time)
+            else:
+                self.property_scheduleitems.append(configitem)
+                self.property_scheduleitemsbytime[configitem.Time] = configitem
 
 
     @classmethod

@@ -19,14 +19,12 @@ class TestConfigItemMethods(unittest.TestCase):
             Config.Read("tests/test_config_bad.yaml")
 
     def test_configfile_load(self):
-        config = Config.Read("config.yaml")
-        self.assertEqual(3, len(config.ConfigItems))
-        self.assertIsNotNone(config.GetConfigItemByTime("11:30"))
-        self.assertIsNotNone(config.GetConfigItemByTime("13:30"))
-        self.assertIsNotNone(config.GetConfigItemByTime("12:30"))
-        self.assertTrue(config.GetConfigItemByTime("11:30"))
-        self.assertTrue(config.GetConfigItemByTime("13:30"))
-        self.assertTrue(config.GetConfigItemByTime("12:30"))
+        config = Config.Read("tests/test_config_good.yaml")
+        self.assertEqual(4, len(config.ConfigItems))
+        self.assertIsNotNone(config.GetConfigItemByTime("23:28"))
+        self.assertIsNotNone(config.GetConfigItemByTime("23:29"))
+        self.assertIsNotNone(config.GetConfigItemByTime("23:30"))
+        self.assertIsNotNone(config.GetConfigItemByTime("23:31"))
 
 
 if __name__ == '__main__':

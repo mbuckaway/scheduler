@@ -17,7 +17,19 @@ class TestConfigItemMethods(unittest.TestCase):
         pass
 
     def test_startstop(self):
+        configdata_write1 = {
+            'verb': 'write',
+            'time': '23:24',
+            'socket_name': "/tmp/release-bunnies.sock",
+            'message': "This is a test\n"
+        }
         configdata_start = {
+            'verb': 'start',
+            'time': '23:23',
+            'program_name': 'scripts/release-bunnies',
+            'pidfile_name': '/tmp/release-bunnies.pid'
+        }
+        configdata_start2 = {
             'verb': 'start',
             'time': '23:23',
             'program_name': 'scripts/release-bunnies',
@@ -36,36 +48,46 @@ class TestConfigItemMethods(unittest.TestCase):
             'pidfile_name': '/tmp/release-bunnies.pid'
         }
 
-        now = datetime.datetime.utcnow()
-        configdata_start['time'] = f'{now.hour:#02d}:{now.minute:#02d}'
-        configdata_stop['time'] = f'{now.hour:#02d}:{now.minute:#02d}'
-        configdata_write['time'] = f'{now.hour:#02d}:{now.minute:#02d}'
+        configitem_write1 = ConfigItem(configdata_write1)
+        self.assertTrue(configitem_write1.Check())
 
         configitem_start = ConfigItem(configdata_start)
         self.assertTrue(configitem_start.Check())
         
+        configitem_start2 = ConfigItem(configdata_start2)
+        self.assertTrue(configitem_start2.Check())
+
         configitem_write = ConfigItem(configdata_write)
         self.assertTrue(configitem_write.Check())
 
         configitem_stop = ConfigItem(configdata_stop)
         self.assertTrue(configitem_stop.Check())
 
+        factory_write1 = CommandFactory(configitem_write1)
+        command_write1 = factory_write1.Command()
+        self.assertTrue(type(command_write1) is WriteCmd)
+
         factory_start = CommandFactory(configitem_start)
         command_start = factory_start.Command()
         self.assertTrue(type(command_start) is StartCmd)
-        self.assertTrue(command_start.CheckTime())
+
+        factory_start2 = CommandFactory(configitem_start2)
+        command_start2 = factory_start2.Command()
+        self.assertTrue(type(command_start2) is StartCmd)
 
         factory_write = CommandFactory(configitem_write)
         command_write = factory_write.Command()
         self.assertTrue(type(command_write) is WriteCmd)
-        self.assertTrue(command_write.CheckTime())
 
         factory_stop = CommandFactory(configitem_stop)
         command_stop = factory_stop.Command()
         self.assertTrue(type(command_stop) is StopCmd)
-        self.assertTrue(command_stop.CheckTime())
 
+        command_write1.Run()
+        time.sleep(3)
         command_start.Run()
+        time.sleep(3)
+        command_start2.Run()
         time.sleep(3)
         command_write.Run()
         time.sleep(3)

@@ -14,7 +14,10 @@ setup(name='Scheduler',
             'scheduler = configlib.cli_padpayments:main', 
             ]},
         install_requires=[
-            'pyyml',
-            'zc.lockfile'
+            'pyyaml',
+            'zc.lockfile',
+            'wheel',
+            'zc.lockfile',
+            'psutil'
         ]
 )
