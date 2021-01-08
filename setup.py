@@ -11,7 +11,7 @@ setup(name='Scheduler',
         include_package_data=True,
         packages=['configlib'],
         entry_points = {'console_scripts': [
-            'scheduler = configlib.cli_padpayments:main', 
+            'scheduler = configlib.cli_scheduler:main', 
             ]},
         install_requires=[
             'pyyaml',

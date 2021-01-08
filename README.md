@@ -1,6 +1,6 @@
 # Sample Python Scheduler
 
-This is an example of a scheduler written in Python. It reads a config file, starts and stops processes, and writes data to a UNIX socket.
+This is an example of a scheduler written in Python. It reads a config file, starts and stops processes, and writes data to a UNIX socket. The code has been tested on Python 3.9 on Mac OSX and Ubuntu Linux 20.20.
 
 ## Config File Format
 
@@ -38,11 +38,19 @@ The program takes one argument and that is the config file. '-h' will return hel
 
 ## Installing
 
-The code by itself will run out of the box with the "scheduler" command line utility. The 'scripts/release-bunnies' program exists for testing. This script requires netcat to be installed to act as a server. We could have written a python utility, but if was faster to create a shell script concidering the reason for the program.
+The code by itself will run out of the box with the "scheduler" command line utility. The 'scripts/release-bunnies' program exists for testing. This script requires netcat to be installed to act as a server. We could have written a python utility, but if was faster to create a shell script considering the reason for the program. This method requires pip to install the requirements:
+
+'''
+pip3 install -r requirements
+scheduler config.yaml
+'''
+
+
+
 
 Alternatively, a setup.py has been provided. To use this method, for testing purposes, create a virtual environment first:
 '''
 python3 -m venv env
-python3 setup.py install
 . env/bin/activate
+python3 setup.py install
 scheduler config.yaml
